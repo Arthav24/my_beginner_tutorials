@@ -1,0 +1,3 @@
+arthavg7@arthavg7:~/nuc/classwork/soft_700/my_beginner_tutorials/src/beginner_tutorials$ clang-format -style=Google -i $( find . -name *.cpp | grep -vE -e "^./build/" )
+arthavg7@arthavg7:~/nuc/classwork/soft_700/my_beginner_tutorials/src/beginner_tutorials$ echo $?
+0
