@@ -16,6 +16,7 @@
 ├── log/
 └── src/
     ├── beginner_tutorials/
+    ├── beginner_tutorial_interfaces/
 ```
 ## Assignment 1 - Publisher/Subscriber
 
@@ -28,8 +29,8 @@ Package directory structure:
 beginner_tutorials/
 ├── include/
 └── src/
-    ├── publisher_member_function.cpp
-    ├── subscriber_member_function.cpp
+    ├── publisher_member_function.cc
+    ├── subscriber_member_function.cc
 ```
 
 ``` bash
@@ -59,4 +60,12 @@ First, source the overlay:
 source install/setup.bash
 ros2 run beginner_tutorials talker # on one terminal 
 ros2 run beginner_tutorials listner # on another terminal
+
+# To change base output string via service
+ros2 service call /change_msg beginner_tutorial_interfaces/srv/String "{data: 'ENPM700'}"
+
+# To launch as a system
+ros2 launch beginner_tutorials demo.launch.py
+
+
 ```
