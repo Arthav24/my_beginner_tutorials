@@ -22,9 +22,14 @@ using namespace std::chrono_literals;
 /* This example creates a subclass of Node and uses std::bind() to register a
  * member function as a callback from the timer. */
 
+/**
+ * @brief Minimal Publisher class to demonstrate basic publish and service server
+ */
 class MinimalPublisher : public rclcpp::Node {
  public:
-  MinimalPublisher() : Node("minimal_publisher"), count_(0) {
+  /**
+   * @brief Constructor for MinimalPublisher
+   */
   MinimalPublisher() : Node("minimal_publisher"), count_(0), str_("Anirudh Swarankar ") {
     RCLCPP_DEBUG_STREAM(this->get_logger(), "Creating topic /topic with queue " << 10 << " & service /change_msg");
     RCLCPP_WARN_STREAM(this->get_logger(), "Setting msg to Anirudh Swarankar");
@@ -86,6 +91,10 @@ class MinimalPublisher : public rclcpp::Node {
       resp->response = false;
     }
   }
+
+  /**
+   * @brief Timer function to publish message periodically
+   */
   void timer_callback() {
     auto message = std_msgs::msg::String();
     message.data = str_ + std::to_string(count_++);
