@@ -15,6 +15,7 @@
 #include <std_msgs/msg/string.hpp>
 #include <beginner_tutorial_interfaces/srv/string.hpp>
 #include <string>
+#include <csignal>
 
 using namespace std::chrono_literals;
 
@@ -42,7 +43,6 @@ class MinimalPublisher : public rclcpp::Node {
     // Publisher object
     publisher_ = this->create_publisher<std_msgs::msg::String>("topic", 10);
     timer_ = this->create_wall_timer(
-        500ms, std::bind(&MinimalPublisher::timer_callback, this));
         std::chrono::milliseconds((int) (1000 / param.as_double())),
         std::bind(&MinimalPublisher::timer_callback, this));
     // Service server
@@ -54,6 +54,10 @@ class MinimalPublisher : public rclcpp::Node {
   }
 
  private:
+  /**
+   * @brief Callback function executed when the param is set externally via cli or other modules
+   * @param param parameter
+   */
   void param_cb(const rclcpp::Parameter &param) {
     RCLCPP_INFO_STREAM(this->get_logger(),
                        "Received an update to parameter " << param.get_name().c_str() << " of type "
@@ -64,6 +68,12 @@ class MinimalPublisher : public rclcpp::Node {
     // replacing timer with new frequency
     timer_ = this->create_wall_timer(period, std::bind(&MinimalPublisher::timer_callback, this));
   }
+
+  /**
+   * @brief Service server callback. In request body a string is received
+   * @param req Request
+   * @param resp Response
+   */
   void change_msg_callback(const std::shared_ptr<beginner_tutorial_interfaces::srv::String_Request> req,
                            std::shared_ptr<beginner_tutorial_interfaces::srv::String_Response> resp) {
     try {
@@ -88,11 +98,18 @@ class MinimalPublisher : public rclcpp::Node {
   rclcpp::Service<beginner_tutorial_interfaces::srv::String>::SharedPtr service_;
   size_t count_;
   std::string str_;
+  std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber_;
+  std::shared_ptr<rclcpp::ParameterCallbackHandle> param_callback_;
 };
 
 int main(int argc, char *argv[]) {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<MinimalPublisher>());
-  rclcpp::shutdown();
+  signal(SIGINT, [](int sig) {
+    RCLCPP_FATAL(rclcpp::get_logger("talker"), "Ctrl+C pressed, shutting down node");
+    rclcpp::shutdown();
+
+  });
+  auto node = std::make_shared<MinimalPublisher>();
+  rclcpp::spin(node);
   return 0;
 }
