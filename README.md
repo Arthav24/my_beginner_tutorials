@@ -11,27 +11,33 @@
 ### Repository directory structure:
 
 ```
-├── build/
-├── install/
-├── log/
-└── src/
-    ├── beginner_tutorials/
-    ├── beginner_tutorial_interfaces/
+src/
+├── beginner_tutorial_interfaces
+│   ├── CMakeLists.txt
+│   ├── include
+│   │   └── beginner_tutorial_interfaces
+│   ├── LICENSE
+│   ├── package.xml
+│   ├── src
+│   └── srv
+│       └── String.srv
+├── beginner_tutorials
+│   ├── clang_format_op.txt
+│   ├── CMakeLists.txt
+│   ├── cpplint_op.txt
+│   ├── include
+│   │   └── beginner_tutorials
+│   ├── launch
+│   │   └── demo.launch.py
+│   ├── LICENSE
+│   ├── package.xml
+│   └── src
+│       ├── publisher_member_function.cc
+│       └── subscriber_member_function.cc
+└── images
+    └── rqt.png
 ```
-## Assignment 1 - Publisher/Subscriber
-
-This is a tutorial package to learn pub-sub mechanism. <br>
-Original codes can be found here https://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.html
-
-Package directory structure:
-
-```
-beginner_tutorials/
-├── include/
-└── src/
-    ├── publisher_member_function.cc
-    ├── subscriber_member_function.cc
-```
+## Directory setup
 
 ``` bash
 mkdir -p ~/colcon_ws/src
@@ -51,7 +57,7 @@ rosdep install --from-path src --ignore-src -y # assuming ROS_DISTRO is set to h
 cd ~/colcon_ws/
 colcon clean workspace
 source /opt/ros/humble/setup.bash  # if needed
-colcon build --packages-select beginner_tutorials
+colcon build
 ```
 
 ## How to Run:
@@ -68,3 +74,5 @@ ros2 service call /change_msg beginner_tutorial_interfaces/srv/String "{data: 'E
 ros2 launch beginner_tutorials demo.launch.py freq:=0.5
 
 ```
+
+Original codes can be found here https://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.html
