@@ -4,18 +4,18 @@
  * Copyright (c)
  * All rights reserved
  *
- * This file is part of the ENPM700 Assignments. Redistribution and use in source and
- * binary forms, with or without modification, are permitted exclusively
- * under the terms of the Apache-2.0 license.
-*/
+ * This file is part of the ENPM700 Assignments. Redistribution and use in
+ * source and binary forms, with or without modification, are permitted
+ * exclusively under the terms of the Apache-2.0 license.
+ */
+#include <beginner_tutorial_interfaces/srv/string.hpp>
 #include <chrono>
+#include <csignal>
 #include <functional>
 #include <memory>
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/string.hpp>
-#include <beginner_tutorial_interfaces/srv/string.hpp>
 #include <string>
-#include <csignal>
 
 using namespace std::chrono_literals;
 
@@ -23,15 +23,19 @@ using namespace std::chrono_literals;
  * member function as a callback from the timer. */
 
 /**
- * @brief Minimal Publisher class to demonstrate basic publish and service server
+ * @brief Minimal Publisher class to demonstrate basic publish and service
+ * server
  */
 class MinimalPublisher : public rclcpp::Node {
  public:
   /**
    * @brief Constructor for MinimalPublisher
    */
-  MinimalPublisher() : Node("minimal_publisher"), count_(0), str_("Anirudh Swarankar ") {
-    RCLCPP_DEBUG_STREAM(this->get_logger(), "Creating topic /topic with queue " << 10 << " & service /change_msg");
+  MinimalPublisher()
+      : Node("minimal_publisher"), count_(0), str_("Anirudh Swarankar ") {
+    RCLCPP_DEBUG_STREAM(this->get_logger(), "Creating topic /topic with queue "
+                                                << 10
+                                                << " & service /change_msg");
     RCLCPP_WARN_STREAM(this->get_logger(), "Setting msg to Anirudh Swarankar");
 
     // Param handling
@@ -41,37 +45,37 @@ class MinimalPublisher : public rclcpp::Node {
     auto param = this->get_parameter("freq");
     auto freq = param.get_parameter_value().get<std::float_t>();
     param_subscriber_ = std::make_shared<rclcpp::ParameterEventHandler>(this);
-    param_callback_ = param_subscriber_->add_parameter_callback("freq",
-                                                                std::bind(&MinimalPublisher::param_cb,
-                                                                          this,
-                                                                          std::placeholders::_1));
+    param_callback_ = param_subscriber_->add_parameter_callback(
+        "freq",
+        std::bind(&MinimalPublisher::param_cb, this, std::placeholders::_1));
     // Publisher object
     publisher_ = this->create_publisher<std_msgs::msg::String>("topic", 10);
     timer_ = this->create_wall_timer(
-        std::chrono::milliseconds((int) (1000 / param.as_double())),
+        std::chrono::milliseconds((int)(1000 / param.as_double())),
         std::bind(&MinimalPublisher::timer_callback, this));
     // Service server
-    service_ = this->create_service<beginner_tutorial_interfaces::srv::String>("/change_msg",
-                                                                               std::bind(&MinimalPublisher::change_msg_callback,
-                                                                                         this,
-                                                                                         std::placeholders::_1,
-                                                                                         std::placeholders::_2));
+    service_ = this->create_service<beginner_tutorial_interfaces::srv::String>(
+        "/change_msg", std::bind(&MinimalPublisher::change_msg_callback, this,
+                                 std::placeholders::_1, std::placeholders::_2));
   }
 
  private:
   /**
-   * @brief Callback function executed when the param is set externally via cli or other modules
+   * @brief Callback function executed when the param is set externally via cli
+   * or other modules
    * @param param parameter
    */
   void param_cb(const rclcpp::Parameter &param) {
-    RCLCPP_INFO_STREAM(this->get_logger(),
-                       "Received an update to parameter " << param.get_name().c_str() << " of type "
-                                                          << param.get_type_name().c_str() << " -> "
-                                                          << param.as_double());
+    RCLCPP_INFO_STREAM(this->get_logger(), "Received an update to parameter "
+                                               << param.get_name().c_str()
+                                               << " of type "
+                                               << param.get_type_name().c_str()
+                                               << " -> " << param.as_double());
 
-    auto period = std::chrono::milliseconds((int) (1000 / param.as_double()));
+    auto period = std::chrono::milliseconds((int)(1000 / param.as_double()));
     // replacing timer with new frequency
-    timer_ = this->create_wall_timer(period, std::bind(&MinimalPublisher::timer_callback, this));
+    timer_ = this->create_wall_timer(
+        period, std::bind(&MinimalPublisher::timer_callback, this));
   }
 
   /**
@@ -79,15 +83,18 @@ class MinimalPublisher : public rclcpp::Node {
    * @param req Request
    * @param resp Response
    */
-  void change_msg_callback(const std::shared_ptr<beginner_tutorial_interfaces::srv::String_Request> req,
-                           std::shared_ptr<beginner_tutorial_interfaces::srv::String_Response> resp) {
+  void change_msg_callback(
+      const std::shared_ptr<beginner_tutorial_interfaces::srv::String_Request>
+          req,
+      std::shared_ptr<beginner_tutorial_interfaces::srv::String_Response>
+          resp) {
     try {
       str_ = req->data;
       resp->response = true;
       RCLCPP_DEBUG_STREAM(this->get_logger(), "Changed to " << str_);
-    }
-    catch (const std::exception &e) {
-      RCLCPP_ERROR_STREAM(this->get_logger(), "Failed setting string to" << req->data);
+    } catch (const std::exception &e) {
+      RCLCPP_ERROR_STREAM(this->get_logger(),
+                          "Failed setting string to" << req->data);
       resp->response = false;
     }
   }
@@ -104,7 +111,8 @@ class MinimalPublisher : public rclcpp::Node {
 
   rclcpp::TimerBase::SharedPtr timer_;
   rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;
-  rclcpp::Service<beginner_tutorial_interfaces::srv::String>::SharedPtr service_;
+  rclcpp::Service<beginner_tutorial_interfaces::srv::String>::SharedPtr
+      service_;
   size_t count_;
   std::string str_;
   std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber_;
@@ -114,9 +122,9 @@ class MinimalPublisher : public rclcpp::Node {
 int main(int argc, char *argv[]) {
   rclcpp::init(argc, argv);
   signal(SIGINT, [](int sig) {
-    RCLCPP_FATAL(rclcpp::get_logger("talker"), "Ctrl+C pressed, shutting down node");
+    RCLCPP_FATAL(rclcpp::get_logger("talker"),
+                 "Ctrl+C pressed, shutting down node");
     rclcpp::shutdown();
-
   });
   auto node = std::make_shared<MinimalPublisher>();
   rclcpp::spin(node);

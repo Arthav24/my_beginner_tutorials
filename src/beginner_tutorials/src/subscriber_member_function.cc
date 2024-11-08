@@ -1,14 +1,14 @@
 /**
-* @file subscriber_member_function.cc
-* @brief C++ ROS2 node
-* @author Anirudh Swarankar
-* Copyright (c)
-* All rights reserved
-*
-* This file is part of the ENPM700 Assignments. Redistribution and use in source and
-* binary forms, with or without modification, are permitted exclusively
-* under the terms of the Apache-2.0 license.
-*/
+ * @file subscriber_member_function.cc
+ * @brief C++ ROS2 node
+ * @author Anirudh Swarankar
+ * Copyright (c)
+ * All rights reserved
+ *
+ * This file is part of the ENPM700 Assignments. Redistribution and use in
+ * source and binary forms, with or without modification, are permitted
+ * exclusively under the terms of the Apache-2.0 license.
+ */
 #include <functional>
 #include <memory>
 
@@ -16,13 +16,15 @@
 #include "std_msgs/msg/string.hpp"
 
 /**
-* @brief Minimal Subscriber class it inherits rclcpp node
-*/
+ * @brief Minimal Subscriber class it inherits rclcpp node
+ */
 class MinimalSubscriber : public rclcpp::Node {
  public:
   MinimalSubscriber() : Node("minimal_subscriber") {
     subscription_ = this->create_subscription<std_msgs::msg::String>(
-        "topic", 10, std::bind(&MinimalSubscriber::topic_callback, this, std::placeholders::_1));
+        "topic", 10,
+        std::bind(&MinimalSubscriber::topic_callback, this,
+                  std::placeholders::_1));
   }
 
  private:
