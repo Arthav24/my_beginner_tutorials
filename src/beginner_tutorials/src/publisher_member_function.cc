@@ -94,12 +94,12 @@ class MinimalPublisher : public rclcpp::Node {
    */
   void param_cb(const rclcpp::Parameter &param) {
     RCLCPP_INFO_STREAM(this->get_logger(), "Received an update to parameter "
-                                               << param.get_name().c_str()
-                                               << " of type "
-                                               << param.get_type_name().c_str()
-                                               << " -> " << param.as_double());
+        << param.get_name().c_str()
+        << " of type "
+        << param.get_type_name().c_str()
+        << " -> " << param.as_double());
 
-    auto period = std::chrono::milliseconds((int)(1000 / param.as_double()));
+    auto period = std::chrono::milliseconds((int) (1000 / param.as_double()));
     // replacing timer with new frequency
     timer_ = this->create_wall_timer(
         period, std::bind(&MinimalPublisher::timer_callback, this));
@@ -112,9 +112,9 @@ class MinimalPublisher : public rclcpp::Node {
    */
   void change_msg_callback(
       const std::shared_ptr<beginner_tutorial_interfaces::srv::String_Request>
-          req,
+      req,
       std::shared_ptr<beginner_tutorial_interfaces::srv::String_Response>
-          resp) {
+      resp) {
     try {
       str_ = req->data;
       resp->response = true;
@@ -136,14 +136,34 @@ class MinimalPublisher : public rclcpp::Node {
     publisher_->publish(message);
   }
 
+  /**
+   * @brief Timer object
+   */
   rclcpp::TimerBase::SharedPtr timer_;
+  /**
+   * @brief Publisher object
+   */
   rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;
+  /**
+   * @brief Timer object
+   */
   rclcpp::Service<beginner_tutorial_interfaces::srv::String>::SharedPtr
       service_;
   size_t count_;
   std::string str_;
+  /**
+   * @brief Param event handler object
+   */
   std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber_;
+  /**
+   * @brief Param callback handler object
+   */
   std::shared_ptr<rclcpp::ParameterCallbackHandle> param_callback_;
+  /**
+   * @brief Tf2_ros object
+   */
+  std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
+
 };
 
 int main(int argc, char *argv[]) {
