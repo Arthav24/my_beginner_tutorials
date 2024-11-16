@@ -4,6 +4,7 @@
 - OS: Ubuntu:22.04
 - Developed and tested on x86-64 architecture
 - ROS2 - humble (https://docs.ros.org/en/humble/Installation.html)
+- catch_ros2
 - python3-colcon-clean (sudo apt-get install python3-colcon-clean -y)
 - terminator 
 - Editor used - VSCODE (https://code.visualstudio.com/)
@@ -28,12 +29,16 @@ src/
 │   ├── include
 │   │   └── beginner_tutorials
 │   ├── launch
-│   │   └── demo.launch.py
+│   │   ├── bag.launch.py
+│   │   ├── demo.launch.py
+│   │   └── integration_test.launch.yaml
 │   ├── LICENSE
 │   ├── package.xml
-│   └── src
-│       ├── publisher_member_function.cc
-│       └── subscriber_member_function.cc
+│   ├── src
+│   │   ├── publisher_member_function.cc
+│   │   └── subscriber_member_function.cc
+│   └── test
+│       └── integration_test_node.cc
 └── images
     └── rqt.png
 ```
@@ -72,6 +77,31 @@ ros2 service call /change_msg beginner_tutorial_interfaces/srv/String "{data: 'E
 
 # To launch as a system
 ros2 launch beginner_tutorials demo.launch.py freq:=0.5
+
+ 
+# To test static tf broadcaster
+ros2 run beginner_tutorials talker --ros-args -p freq:=10.0 #To publish tf
+ros2 run tf2_ros tf2_echo world talk
+
+# To run Level 2 integration test 
+colcon test  --return-code-on-test-failure --event-handlers console_cohesion+ --packages-select beginner_tutorials
+
+# To generate frames tree in gv or pdf 
+ros2 run tf2_tools view_frames
+```
+
+## Output of Transformation from world to talk
+```bash
+At time 1731711605.634570712
+- Translation: [10.000, -10.000, 0.000]
+- Rotation: in Quaternion [0.000, 0.000, -0.650, 0.760]
+- Rotation: in RPY (radian) [0.000, 0.000, -1.416]
+- Rotation: in RPY (degree) [0.000, 0.000, -81.127]
+- Matrix:
+  0.154  0.988  0.000 10.000
+ -0.988  0.154 -0.000 -10.000
+ -0.000  0.000  1.000  0.000
+  0.000  0.000  0.000  1.000
 
 ```
 
