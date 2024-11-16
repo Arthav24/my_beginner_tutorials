@@ -1,0 +1,93 @@
+Starting >>> beginner_tutorials
+--- output: beginner_tutorials                   
+UpdateCTestConfiguration  from :/home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials/CTestConfiguration.ini
+Parse Config file:/home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials/CTestConfiguration.ini
+   Site: arthavnuc
+   Build name: (empty)
+ Add coverage exclude regular expressions.
+Create new tag: 20241116-0003 - Experimental
+UpdateCTestConfiguration  from :/home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials/CTestConfiguration.ini
+Parse Config file:/home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials/CTestConfiguration.ini
+Test project /home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 1
+    Start 1: IntegrationTest_beginnerTutorials
+
+1: Test command: /usr/bin/python3 "-u" "/opt/ros/humble/share/catch_ros2/cmake/../scripts/run_test.py" "/home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials/test_results/beginner_tutorials/ExampleIntegration_TestYAML.xml" "--package-name" "beginner_tutorials" "--command" "ros2" "launch" "beginner_tutorials" "integration_test.launch.yaml" "result_file:=/home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials/test_results/beginner_tutorials/ExampleIntegration_TestYAML.xml"
+1: Test timeout computed to be: 60
+1: -- run_test.py: invoking following command in '/home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials':
+1:  - ros2 launch beginner_tutorials integration_test.launch.yaml result_file:=/home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials/test_results/beginner_tutorials/ExampleIntegration_TestYAML.xml
+1: [INFO] [launch]: All log files can be found below /home/arthavnuc/.ros/log/2024-11-15-19-03-34-143427-arthavnuc-104910
+1: [INFO] [launch]: Default logging verbosity is set to INFO
+1: [INFO] [integration_test_node-1]: process started with pid [104911]
+1: [INFO] [talker-2]: process started with pid [104913]
+1: [INFO] [integration_test_node-3]: process started with pid [104915]
+1: [integration_test_node-3] Randomness seeded to: 750590529
+1: [integration_test_node-3] [INFO 1731715414.481096707] [IntegrationTestNode1]: RCVD -->Anirudh Swarankar 0 ---------- (operator()() at /home/arthavnuc/classwork/soft_700/my_beginner_tutorials/src/beginner_tutorials/test/integration_test_node.cc:41)
+1: [integration_test_node-3] ===============================================================================
+1: [integration_test_node-3] All tests passed (2 assertions in 1 test case)
+1: [integration_test_node-3] 
+1: [INFO] [integration_test_node-3]: process has finished cleanly [pid 104915]
+1: [INFO] [integration_test_node-1]: process has finished cleanly [pid 104911]
+1: [INFO] [launch]: process[integration_test_node-3] was required: shutting down launched system
+1: [INFO] [talker-2]: sending signal 'SIGINT' to process[talker-2]
+1: [INFO] [talker-2]: process has finished cleanly [pid 104913]
+1: -- run_test.py: return code 0
+1: -- run_test.py: verify result file '/home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials/test_results/beginner_tutorials/ExampleIntegration_TestYAML.xml'
+1/4 Test #1: ExampleIntegration_TestYAML ......   Passed    0.95 sec
+test 2
+    Start 2: cppcheck
+
+2: Test command: /usr/bin/python3 "-u" "/opt/ros/humble/share/ament_cmake_test/cmake/run_test.py" "/home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials/test_results/beginner_tutorials/cppcheck.xunit.xml" "--package-name" "beginner_tutorials" "--output-file" "/home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials/ament_cppcheck/cppcheck.txt" "--command" "/opt/ros/humble/bin/ament_cppcheck" "--xunit-file" "/home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials/test_results/beginner_tutorials/cppcheck.xunit.xml"
+2: Test timeout computed to be: 300
+2: -- run_test.py: invoking following command in '/home/arthavnuc/classwork/soft_700/my_beginner_tutorials/src/beginner_tutorials':
+2:  - /opt/ros/humble/bin/ament_cppcheck --xunit-file /home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials/test_results/beginner_tutorials/cppcheck.xunit.xml
+2: cppcheck 2.7 has known performance issues and therefore will not be used, set the AMENT_CPPCHECK_ALLOW_SLOW_VERSIONS environment variable to override this.
+2: -- run_test.py: return code 0
+2: -- run_test.py: verify result file '/home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials/test_results/beginner_tutorials/cppcheck.xunit.xml'
+2/4 Test #2: cppcheck .........................   Passed    0.12 sec
+test 3
+    Start 3: pep257
+
+3: Test command: /usr/bin/python3 "-u" "/opt/ros/humble/share/ament_cmake_test/cmake/run_test.py" "/home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials/test_results/beginner_tutorials/pep257.xunit.xml" "--package-name" "beginner_tutorials" "--output-file" "/home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials/ament_pep257/pep257.txt" "--command" "/opt/ros/humble/bin/ament_pep257" "--xunit-file" "/home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials/test_results/beginner_tutorials/pep257.xunit.xml"
+3: Test timeout computed to be: 60
+3: -- run_test.py: invoking following command in '/home/arthavnuc/classwork/soft_700/my_beginner_tutorials/src/beginner_tutorials':
+3:  - /opt/ros/humble/bin/ament_pep257 --xunit-file /home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials/test_results/beginner_tutorials/pep257.xunit.xml
+3: checking ./launch/demo.launch.py
+3: No problems found
+3: -- run_test.py: return code 0
+3: -- run_test.py: verify result file '/home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials/test_results/beginner_tutorials/pep257.xunit.xml'
+3/4 Test #3: pep257 ...........................   Passed    0.16 sec
+test 4
+    Start 4: xmllint
+
+4: Test command: /usr/bin/python3 "-u" "/opt/ros/humble/share/ament_cmake_test/cmake/run_test.py" "/home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials/test_results/beginner_tutorials/xmllint.xunit.xml" "--package-name" "beginner_tutorials" "--output-file" "/home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials/ament_xmllint/xmllint.txt" "--command" "/opt/ros/humble/bin/ament_xmllint" "--xunit-file" "/home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials/test_results/beginner_tutorials/xmllint.xunit.xml"
+4: Test timeout computed to be: 60
+4: -- run_test.py: invoking following command in '/home/arthavnuc/classwork/soft_700/my_beginner_tutorials/src/beginner_tutorials':
+4:  - /opt/ros/humble/bin/ament_xmllint --xunit-file /home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials/test_results/beginner_tutorials/xmllint.xunit.xml
+4: File 'package.xml' is valid
+4: 
+4: No problems found
+4: -- run_test.py: return code 0
+4: -- run_test.py: verify result file '/home/arthavnuc/classwork/soft_700/my_beginner_tutorials/build/beginner_tutorials/test_results/beginner_tutorials/xmllint.xunit.xml'
+4/4 Test #4: xmllint ..........................   Passed    0.33 sec
+
+100% tests passed, 0 tests failed out of 4
+
+Label Time Summary:
+cppcheck    =   0.12 sec*proc (1 test)
+linter      =   0.61 sec*proc (3 tests)
+pep257      =   0.16 sec*proc (1 test)
+xmllint     =   0.33 sec*proc (1 test)
+
+Total Test time (real) =   1.55 sec
+---
+Finished <<< beginner_tutorials [1.58s]
+
+Summary: 1 package finished [1.79s]
+
