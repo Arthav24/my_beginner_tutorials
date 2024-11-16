@@ -16,6 +16,8 @@
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/string.hpp>
 #include <string>
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2_ros/transform_broadcaster.h>
 
 using namespace std::chrono_literals;
 
@@ -34,8 +36,8 @@ class MinimalPublisher : public rclcpp::Node {
   MinimalPublisher()
       : Node("minimal_publisher"), count_(0), str_("Anirudh Swarankar ") {
     RCLCPP_DEBUG_STREAM(this->get_logger(), "Creating topic /topic with queue "
-                                                << 10
-                                                << " & service /change_msg");
+        << 10
+        << " & service /change_msg");
     RCLCPP_WARN_STREAM(this->get_logger(), "Setting msg to Anirudh Swarankar");
 
     // Param handling
@@ -51,15 +53,40 @@ class MinimalPublisher : public rclcpp::Node {
     // Publisher object
     publisher_ = this->create_publisher<std_msgs::msg::String>("topic", 10);
     timer_ = this->create_wall_timer(
-        std::chrono::milliseconds((int)(1000 / param.as_double())),
+        std::chrono::milliseconds((int) (1000 / param.as_double())),
         std::bind(&MinimalPublisher::timer_callback, this));
     // Service server
     service_ = this->create_service<beginner_tutorial_interfaces::srv::String>(
         "/change_msg", std::bind(&MinimalPublisher::change_msg_callback, this,
                                  std::placeholders::_1, std::placeholders::_2));
+    tf_broadcaster_ =
+        std::make_unique<tf2_ros::TransformBroadcaster>(*this);
+    pub_tf();
   }
 
  private:
+
+  void pub_tf() {
+    geometry_msgs::msg::TransformStamped t;
+
+    // Read message content and assign it to
+    // corresponding tf variables
+    t.header.stamp = this->get_clock()->now();
+    t.header.frame_id = "world";
+    t.child_frame_id = "talk";
+    t.transform.translation.x = 10.0;
+    t.transform.translation.y = -10.0;
+    t.transform.translation.z = 0.0;
+    tf2::Quaternion q;
+    q.setRPY(0, 0, 30);
+    t.transform.rotation.x = q.x();
+    t.transform.rotation.y = q.y();
+    t.transform.rotation.z = q.z();
+    t.transform.rotation.w = q.w();
+
+    // Send the transformation
+    tf_broadcaster_->sendTransform(t);
+  }
   /**
    * @brief Callback function executed when the param is set externally via cli
    * or other modules
